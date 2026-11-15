@@ -1,0 +1,44 @@
+import { Navigate, Route, Routes } from "react-router-dom";
+import AppShell from "./components/AppShell";
+import PublicLayout from "./components/PublicLayout";
+import { useApp } from "./context";
+import Dashboard from "./pages/Dashboard";
+import Gallery from "./pages/Gallery";
+import Knowledge from "./pages/Knowledge";
+import PublicSession from "./pages/PublicSession";
+import SubmissionDetail from "./pages/SubmissionDetail";
+import Submissions from "./pages/Submissions";
+import Submit from "./pages/Submit";
+
+function Workspace() {
+  const { orgId, role } = useApp();
+  return (
+    <AppShell>
+      {/* key={orgId}: switching workspace discards all on-screen state */}
+      <div key={orgId}>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/submit" element={<Submit />} />
+          <Route path="/queue" element={<Submissions mode="queue" />} />
+          <Route path="/submissions" element={<Submissions mode="all" />} />
+          <Route path="/submissions/:id" element={<SubmissionDetail />} />
+          <Route path="/knowledge" element={role === "admin" ? <Knowledge /> : <Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+    </AppShell>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route element={<PublicLayout />}>
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/gallery/:id" element={<PublicSession />} />
+        <Route path="/s/:token" element={<PublicSession />} />
+      </Route>
+      <Route path="/*" element={<Workspace />} />
+    </Routes>
+  );
+}
