@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useApp } from "../context";
 import { api } from "../lib/api";
 import { FindingChips, Icon, StatusBadge, timeAgo } from "../lib/ui";
 
-const SUBTITLE = {
-  creator: "Draft or upload content to run instant brand checks before manager review.",
-  reviewer: "Review checked content, then sign off, request changes or reject.",
-  admin: "Maintain brand knowledge and oversee review activity.",
-};
+const SUBTITLE = "Submit content, review brand checks, and manage your brand knowledge — all in one place.";
 
 function Stat({ title, value, note, noteClass, icon, iconClass }) {
   return (
@@ -24,7 +19,6 @@ function Stat({ title, value, note, noteClass, icon, iconClass }) {
 }
 
 export default function Dashboard() {
-  const { role } = useApp();
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
 
@@ -42,9 +36,9 @@ export default function Dashboard() {
     <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-widest text-blue-700">Active role: {role}</div>
+          <div className="text-[11px] font-bold uppercase tracking-widest text-blue-700">Brand Governance OS</div>
           <h2 className="mt-1 text-2xl font-bold text-slate-900">Welcome back</h2>
-          <p className="mt-1 text-sm text-slate-600">{SUBTITLE[role]}</p>
+          <p className="mt-1 text-sm text-slate-600">{SUBTITLE}</p>
         </div>
         <div className="flex items-center gap-3">
           <Link to="/queue" className="text-sm font-semibold text-slate-900 hover:underline">Review Queue ({pending})</Link>

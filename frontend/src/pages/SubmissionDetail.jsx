@@ -3,14 +3,12 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { FindingsList, ImageOverlay, TextHighlighter } from "../components/Results";
 import SharingPanel from "../components/SharingPanel";
 import { CorrectionPanel, HistoryPanel, ReviewPanel } from "../components/Workflow";
-import { useApp } from "../context";
 import { api } from "../lib/api";
 import { ENGINE, Icon, StatusBadge, VisibilityBadge, label } from "../lib/ui";
 
 export default function SubmissionDetail() {
   const { id } = useParams();
   const [params, setParams] = useSearchParams();
-  const { role } = useApp();
 
   const [sub, setSub] = useState(null);
   const [analysis, setAnalysis] = useState(null);
@@ -110,8 +108,8 @@ export default function SubmissionDetail() {
   const openCount = findings.filter((f) => f.status === "open").length;
   const isText = sub.content_type === "text";
   const textToShow = summary.analyzed_text ?? sub.text_content ?? "";
-  const canReview = (role === "reviewer" || role === "admin") && sub.status === "in_review";
-  const canPublish = role === "reviewer" || role === "admin";
+  const canReview = sub.status === "in_review";
+  const canPublish = true;
 
   return (
     <div className="space-y-6">
@@ -184,13 +182,13 @@ export default function SubmissionDetail() {
               </div>
             </section>
 
-            {isText && (role === "creator" || role === "admin") && (
+            {isText && (
               <CorrectionPanel summary={summary} originalText={textToShow} onApply={applyCorrection} busy={busy || running} />
             )}
-            {sub.content_type === "pdf" && role !== "reviewer" && (
+            {sub.content_type === "pdf" && (
               <p className="text-sm text-slate-600">For PDFs, fix the content in your source file and upload it as a new submission.</p>
             )}
-            {sub.content_type === "image" && role !== "reviewer" && (
+            {sub.content_type === "image" && (
               <p className="text-sm text-slate-600">For images, apply the suggested fixes in your design tool and upload a new version as a new submission.</p>
             )}
 

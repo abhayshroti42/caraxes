@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useApp } from "../context";
 import { api } from "../lib/api";
 import { FindingChips, STATUS_LABEL, StatusBadge, VisibilityBadge, timeAgo } from "../lib/ui";
 
 const FILTERS = ["all", "in_review", "needs_revision", "approved", "rejected", "draft"];
 
 export default function Submissions({ mode = "all" }) {
-  const { role } = useApp();
   const queue = mode === "queue";
   const [filter, setFilter] = useState("all");
   const [items, setItems] = useState(null);
@@ -87,7 +85,7 @@ export default function Submissions({ mode = "all" }) {
                   )}
                 </div>
                 <span className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white">
-                  {role === "creator" ? "Open" : "Inspect & Sign Off"} →
+                  Inspect & Sign Off →
                 </span>
               </div>
             </Link>

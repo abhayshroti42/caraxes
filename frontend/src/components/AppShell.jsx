@@ -11,7 +11,7 @@ const MAIN = [
   { to: "/submissions", label: "All Submissions", icon: "doc" },
 ];
 const LOOP = [
-  { to: "/knowledge", label: "Brand Knowledge", icon: "book", admin: true },
+  { to: "/knowledge", label: "Brand Knowledge", icon: "book" },
   { to: "/gallery", label: "Public Gallery", icon: "globe" },
 ];
 
@@ -31,7 +31,7 @@ function titleFor(pathname) {
 }
 
 export default function AppShell({ children }) {
-  const { orgs, orgId, role, error, chooseOrg, chooseRole, createOrg } = useApp();
+  const { orgs, orgId, error, chooseOrg, createOrg } = useApp();
   const { pathname } = useLocation();
   const [stats, setStats] = useState(null);
   const [engine, setEngine] = useState("checking");
@@ -66,7 +66,7 @@ export default function AppShell({ children }) {
 
   const orgName = orgs.find((o) => o.id === orgId)?.name ?? "No workspace";
   const queueCount = stats?.submissions?.in_review ?? 0;
-  const loop = LOOP.filter((i) => !i.admin || role === "admin");
+  const loop = LOOP;
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -168,18 +168,6 @@ export default function AppShell({ children }) {
                 <Icon name="info" className="h-3.5 w-3.5" />
                 AI-assisted governance • Citation-grounded • Human sign-off required
               </span>
-              <label className="flex items-center gap-2 text-xs text-slate-500">
-                Role (demo)
-                <select
-                  value={role}
-                  onChange={(e) => chooseRole(e.target.value)}
-                  className="rounded-lg border border-slate-300 bg-white px-2 py-1.5 text-sm font-medium text-slate-900"
-                >
-                  <option value="creator">Creator</option>
-                  <option value="reviewer">Reviewer</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </label>
             </div>
           </div>
           <nav className="flex gap-1 overflow-x-auto px-4 pb-2 md:hidden">

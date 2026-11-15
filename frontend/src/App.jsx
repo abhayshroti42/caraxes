@@ -11,7 +11,7 @@ import Submissions from "./pages/Submissions";
 import Submit from "./pages/Submit";
 
 function Workspace() {
-  const { orgId, role } = useApp();
+  const { orgId } = useApp();
   return (
     <AppShell>
       {/* key={orgId}: switching workspace discards all on-screen state */}
@@ -22,7 +22,7 @@ function Workspace() {
           <Route path="/queue" element={<Submissions mode="queue" />} />
           <Route path="/submissions" element={<Submissions mode="all" />} />
           <Route path="/submissions/:id" element={<SubmissionDetail />} />
-          <Route path="/knowledge" element={role === "admin" ? <Knowledge /> : <Navigate to="/" />} />
+          <Route path="/knowledge" element={<Knowledge />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
